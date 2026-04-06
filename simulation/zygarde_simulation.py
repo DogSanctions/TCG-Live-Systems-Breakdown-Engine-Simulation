@@ -98,13 +98,15 @@ LYCANROC_GX = CardDefinition(
     ],
 )
 
+MAGMA_BASIN_DAMAGE = 20  # damage counters placed on the Pokémon as Magma Basin's cost
+
 MAGMA_BASIN = CardDefinition(
     card_id="magma-basin-001",
     name="Magma Basin",
     card_type="Item",
 )
 
-SUPPORTERS_PLACEHOLDER = CardDefinition(
+ITEM_PLACEHOLDER = CardDefinition(
     card_id="professor-research-001",
     name="Professor's Research",
     card_type="Item",
@@ -154,7 +156,7 @@ def build_initial_state() -> GameState:
     p1 = PlayerState(
         player_id="p1",
         active=zygarde_instance,
-        hand=[MAGMA_BASIN, energy_hand_1, energy_hand_2, energy_hand_3, SUPPORTERS_PLACEHOLDER],
+        hand=[MAGMA_BASIN, energy_hand_1, energy_hand_2, energy_hand_3, ITEM_PLACEHOLDER],
         deck=[energy_deck_1, energy_deck_2],
         discard=[energy_in_discard],
         prizes=[prize_card(i) for i in range(1, 5)],
@@ -230,7 +232,7 @@ def run_simulation() -> None:
 
     attach_energy_from_discard(state, "p1", target_energy, p1.active)
     # Magma Basin places 2 damage counters on the Pokémon as a cost
-    p1.active.damage_counters += 20
+    p1.active.damage_counters += MAGMA_BASIN_DAMAGE
     log(
         "EFFECT",
         f"Magma Basin places 2 damage counters on {p1.active.name} "

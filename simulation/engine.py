@@ -173,25 +173,32 @@ def _handle_knockout(
 
 
 # ---------------------------------------------------------------------------
+# Tool / stadium effect tables (extensible)
+# ---------------------------------------------------------------------------
+
+_TOOL_ATTACK_BONUS: dict = {
+    "Choice Belt": 30,   # +30 vs. Pokémon V / EX (simplified: always +30 here)
+    "Muscle Band": 20,
+}
+
+_TOOL_DAMAGE_REDUCTION: dict = {
+    "Rocky Helmet": 0,        # Rocky Helmet deals damage back, not reduction
+    "Protecting Cape": 30,
+}
+
+
+# ---------------------------------------------------------------------------
 # Helper: tool / stadium effect look-ups (extensible)
 # ---------------------------------------------------------------------------
 
 def _tool_attack_bonus(tool: CardDefinition) -> int:
     """Return the damage bonus granted by an attached tool to the attacker."""
-    bonuses = {
-        "Choice Belt": 30,   # +30 vs. Pokémon V / EX (simplified: always +30 here)
-        "Muscle Band": 20,
-    }
-    return bonuses.get(tool.name, 0)
+    return _TOOL_ATTACK_BONUS.get(tool.name, 0)
 
 
 def _tool_damage_reduction(tool: CardDefinition) -> int:
     """Return the damage reduction granted by an attached tool to the defender."""
-    reductions = {
-        "Rocky Helmet": 0,   # Rocky Helmet deals damage back, not reduction
-        "Protecting Cape": 30,
-    }
-    return reductions.get(tool.name, 0)
+    return _TOOL_DAMAGE_REDUCTION.get(tool.name, 0)
 
 
 def _stadium_damage_bonus(stadium: CardDefinition, attacker: PokemonInstance) -> int:
